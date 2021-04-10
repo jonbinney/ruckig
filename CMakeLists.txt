@@ -9,7 +9,7 @@ include(GNUInstallDirs)
 
 
 option(BUILD_EXAMPLES "Build example programs" ON)
-option(BUILD_PYTHON_MODULE "Build python module" OFF)
+option(BUILD_PYTHON_MODULE "Build python module" ON)
 option(BUILD_TESTS "Build tests" ON)
 option(BUILD_BENCHMARK "Build benchmark" OFF)
 option(BUILD_SHARED_LIBS "Build as shared library" ON)
@@ -20,6 +20,12 @@ endif()
 
 
 find_package(Reflexxes)
+
+find_package(catkin QUIET)
+if (catkin_FOUND)
+    message("Found catkin; building as a catkin package")
+    catkin_package()
+endif()
 
 
 add_library(ruckig
@@ -79,6 +85,13 @@ if(BUILD_PYTHON_MODULE)
 
   set_target_properties(python_ruckig PROPERTIES OUTPUT_NAME ruckig)
   set_target_properties(python_ruckig PROPERTIES ARCHIVE_OUTPUT_NAME python_ruckig)
+
+  if (catkin_FOUND)
+      set_target_properties(python_ruckig PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_PYTHON_DESTINATION})
+      message("CATKIN_PACKAGE_PYTHON_DESTINATION: ${CATKIN_PACKAGE_PYTHON_DESTINATION}")
+      install(TARGETS python_ruckig DESTINATION ${CATKIN_GLOBAL_PYTHON_DESTINATION})
+    endif()
 endif()
 
 

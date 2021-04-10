@@ -8,9 +8,6 @@
   <maintainer email="lars.berscheid@kit.edu">Lars Berscheid</maintainer>
   <license>MIT</license>
 
-  <buildtool_depend>cmake</buildtool_depend>
+  <buildtool_depend>catkin</buildtool_depend>
 
-  <export>
-    <build_type>cmake</build_type>
-  </export>
 </package>
